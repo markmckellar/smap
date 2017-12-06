@@ -1,0 +1,8 @@
+<Context>
+
+<WatchedResource>META-INF/context.xml</WatchedResource>
+<WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+<Manager pathname="" />
+
+</Context>

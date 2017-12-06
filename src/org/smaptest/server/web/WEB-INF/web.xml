@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app
+      PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+      "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<context-param>
+		<param-name>configuration</param-name>
+		<param-value>development</param-value>
+	</context-param>
+		
+	<context-param>
+		<param-name>session_cookie_name</param-name>
+		<param-value>smap_sso</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>smaptest</servlet-name>
+		<servlet-class>org.smaptest.server.service.SMapTest</servlet-class>		
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>smaptest</servlet-name>
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>45</session-timeout>
+	</session-config>
+
+
+</web-app>
