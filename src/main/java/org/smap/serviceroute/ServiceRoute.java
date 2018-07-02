@@ -15,6 +15,12 @@ public class ServiceRoute
 	private ServiceMapperServlet serviceMapperServlet;
 	private String passedInPath;
 	
+	public ServiceRoute(ServiceRoute serviceRoute) throws Exception
+	{
+		this(serviceRoute.getPassedInPath(),serviceRoute.getServiceMapperServlet());
+		this.getRequestTypeHandlerList().addAll(serviceRoute.getRequestTypeHandlerList());
+	}
+	
 	public ServiceRoute(String path,ServiceMapperServlet serviceMapperServlet) throws Exception
 	{
 		this.setPassedInPath(path);

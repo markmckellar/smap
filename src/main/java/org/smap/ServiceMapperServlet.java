@@ -38,8 +38,14 @@ public abstract class ServiceMapperServlet extends HttpServlet
 				firstServiceRoute = serviceRoute;
 				Log.info("ServiceMapperServlet:findFirstMatchingService:Found a route for:"+uri+":"+firstServiceRoute.getPassedInPath());
 				try {
+					
+					
+					// 2018-06-29 NEW!  posbile issue with concurency
+					firstServiceRoute = new ServiceRoute(serviceRoute);
+					
+					
 					firstServiceRoute.getPathSelector().setExtractedValueMap(
-							firstServiceRoute.getPathSelector().getTagNameToValueMap(uri));
+							firstServiceRoute.getPathSelector().createTagNameToValueMap(uri));
 				} catch (Exception e) {
 					throw new ServletException(e.getMessage());
 				}
@@ -77,6 +83,8 @@ public abstract class ServiceMapperServlet extends HttpServlet
 			
 			
 			RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
+			// 2018-06-29 NEW!  posbile issue with concurency
+			requestTypeHandler.setServiceRoute(firstServiceRoute);
 			requestTypeHandler.processRequest(req, res);
 					
 		}		

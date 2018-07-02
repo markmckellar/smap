@@ -28,12 +28,12 @@ public class StringFormatExtractor
 	public static void main(String args[]) throws Exception
 	{
 		StringFormatExtractor stringFormatExtractor1 = new StringFormatExtractor("/{:arg1:}/{:arg2:}/{:arg3:}/{:arg4:}");
-		stringFormatExtractor1.getTagNameToValueMap("/this/is/a/test");
+		stringFormatExtractor1.createTagNameToValueMap("/this/is/a/test");
 		Log.info("matches="+stringFormatExtractor1.matches("/this/is/a/test"));
 		
 		
 		StringFormatExtractor stringFormatExtractor2 = new StringFormatExtractor("/this/is/a/{:arg4:}");
-		stringFormatExtractor2.getTagNameToValueMap("/this/is/a/test");
+		stringFormatExtractor2.createTagNameToValueMap("/this/is/a/test");
 		Log.info("matches="+stringFormatExtractor2.matches("/this/is/a/test"));
 		Log.info("matches="+stringFormatExtractor2.matches("/hummmm/is/a/test"));
 		
@@ -82,7 +82,7 @@ public class StringFormatExtractor
 		return(matcher.matches());
 	}
 	
-	public Map<String,String> getTagNameToValueMap(String text) throws Exception
+	public Map<String,String> createTagNameToValueMap(String text) throws Exception
 	{
 		Map<String,String> tagNameToValueMap = new HashMap<String,String>();
 
