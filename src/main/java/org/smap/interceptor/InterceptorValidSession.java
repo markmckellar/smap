@@ -37,7 +37,7 @@ public class InterceptorValidSession extends RequestTypeHandler implements Inter
 		this.setWasIntercepted(false);
 		if(isInterceptable(req,res))
 		{
-			res.sendError(HttpServletResponse.SC_FORBIDDEN);
+			res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			setWasIntercepted(true);
 		}
 	}
