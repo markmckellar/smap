@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.smap.service.RequestTypeHandler;
+import org.smap.session.SessionInterface;
 
 public interface Interceptor
 {
@@ -14,11 +15,10 @@ public interface Interceptor
 	
 	public boolean wasIntercepted() throws ServletException,IOException;
 
-	default boolean processInterceptor(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
+	default boolean processInterceptor(HttpServletRequest req, HttpServletResponse res,SessionInterface session) throws ServletException,IOException
 	{
 		RequestTypeHandler requestTypeHandler = getRequestTypeHandler().getNewInstance(req, res);
-		requestTypeHandler.processRequest(req, res);
-		//getRequestTypeHandler().processRequest(req, res);
+		requestTypeHandler.processRequest(req, res,session);
 		return(wasIntercepted());
 	}
 }

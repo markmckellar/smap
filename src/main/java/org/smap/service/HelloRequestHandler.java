@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.smap.interceptor.Interceptor;
 import org.smap.serviceroute.ServiceRoute;
+import org.smap.session.SessionFactoryInterface;
 
 public class HelloRequestHandler extends RequestTypeHandler
 {
-	public HelloRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute) {
-		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
+	public HelloRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
+		super(serviceType,serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
 	}
 
 	public void handleRequestType(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

@@ -12,7 +12,7 @@ import org.smap.interceptor.Interceptor;
 import org.smap.service.RequestTypeHandler;
 import org.smap.service.StatusMessageResponse;
 import org.smap.serviceroute.ServiceRoute;
-
+import org.smap.session.SessionFactoryInterface;
 import org.smap.util.Log;
 
 import com.google.gson.Gson;
@@ -21,8 +21,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class IsSessionValidGetRequestHandler extends RequestTypeHandler {
 	
-	public IsSessionValidGetRequestHandler(ServiceRoute serviceRoute) {
-		super(ServiceTypeEnum.GET, serviceRoute,new ArrayList<Interceptor>());
+	public IsSessionValidGetRequestHandler(ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
+		super(ServiceTypeEnum.GET, serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
 	}
 
 	public void handleRequestType(HttpServletRequest req, HttpServletResponse res)

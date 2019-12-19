@@ -16,7 +16,10 @@ public class InterceptorValidSession extends RequestTypeHandler implements Inter
 	private boolean wasIntercepted;
 
 	public InterceptorValidSession(RequestTypeHandler requestTypeHandler) {
-		super(requestTypeHandler.getServiceType(),requestTypeHandler.getServiceRoute(),new ArrayList<Interceptor>());
+		super(requestTypeHandler.getServiceType(),
+				requestTypeHandler.getServiceRoute(),
+				new ArrayList<Interceptor>(),
+				requestTypeHandler.getSessionFactory());
 	}
 	
 	public RequestTypeHandler getRequestTypeHandler()

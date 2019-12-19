@@ -11,7 +11,7 @@ import org.smap.service.SqlServiceHandler;
 import org.smap.service.StatusMessageResponse;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
 import org.smap.serviceroute.ServiceRoute;
-
+import org.smap.session.SessionFactoryInterface;
 import org.smap.util.Log;
 
 import com.google.gson.Gson;
@@ -22,8 +22,8 @@ public abstract class ValidateLoginRequestHandler extends SqlServiceHandler
 	
 	public static final String SESSION_VALIDATED = "validated";
 
-	public ValidateLoginRequestHandler(ServiceTypeEnum serviceType,SqlServcieHandlerFactory sqlServcieHandlerFactory,ServiceRoute serviceRoute) { 
-		super(serviceType,sqlServcieHandlerFactory,serviceRoute);
+	public ValidateLoginRequestHandler(ServiceTypeEnum serviceType,SqlServcieHandlerFactory sqlServcieHandlerFactory,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) { 
+		super(serviceType,sqlServcieHandlerFactory,serviceRoute,sessionFactory);
 	}
 	
 	public abstract void setValidatedSessionInfo(LoginCredentials loginCredentials,HttpServletRequest req,HttpServletResponse res) throws ServletException;

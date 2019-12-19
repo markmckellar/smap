@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.smap.interceptor.Interceptor;
 import org.smap.serviceroute.ServiceRoute;
+import org.smap.session.SessionFactoryInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,8 +22,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class GetServerInfoRequestHandler extends RequestTypeHandler
 {	
-	public GetServerInfoRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute) {
-		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
+	public GetServerInfoRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
+		super(serviceType,serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
 	}	
 	
 	public void populateInfoMap(HttpServletRequest req, HttpServletResponse res,Map<String,Object> infoMap)

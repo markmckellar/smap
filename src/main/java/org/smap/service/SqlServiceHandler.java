@@ -13,6 +13,7 @@ import org.smap.serviceresource.ServiceHandlerResource;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
 import org.smap.serviceresource.SqlServcieHandlerResorce;
 import org.smap.serviceroute.ServiceRoute;
+import org.smap.session.SessionFactoryInterface;
 
 public abstract class SqlServiceHandler extends RequestTypeHandler 
 {
@@ -20,12 +21,16 @@ public abstract class SqlServiceHandler extends RequestTypeHandler
 	private SqlServcieHandlerFactory sqlServcieHandlerFactory;
 
 	public SqlServiceHandler(SqlServiceHandler sqlServiceHandler) {
-		super(sqlServiceHandler.getServiceType(),sqlServiceHandler.getServiceRoute(),sqlServiceHandler.getInterceptorList());
+		super(sqlServiceHandler.getServiceType(),
+				sqlServiceHandler.getServiceRoute(),sqlServiceHandler.getInterceptorList(),
+				sqlServiceHandler.getSessionFactory());
 		this.setSqlServcieHandlerFactory(sqlServiceHandler.sqlServcieHandlerFactory);
 	}
 	
-	public SqlServiceHandler(ServiceTypeEnum serviceType,SqlServcieHandlerFactory sqlServcieHandlerFactory,ServiceRoute serviceRoute) {
-		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
+	public SqlServiceHandler(ServiceTypeEnum serviceType,
+			SqlServcieHandlerFactory sqlServcieHandlerFactory,
+			ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
+		super(serviceType,serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
 		this.setSqlServcieHandlerFactory(sqlServcieHandlerFactory);
 	}
 	

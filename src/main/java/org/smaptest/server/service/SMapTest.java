@@ -13,6 +13,7 @@ import org.smap.service.HelloRequestHandler;
 import org.smap.service.RequestTypeHandler;
 import org.smap.service.RequestTypeHandler.ServiceTypeEnum;
 import org.smap.serviceroute.ServiceRoute;
+import org.smap.session.SessionFactoryInMemory;
 
 
 @SuppressWarnings("serial")
@@ -29,12 +30,12 @@ public class SMapTest extends ServiceMapperServlet
 		List<ServiceRoute> serviceRouteList = new ArrayList<ServiceRoute>(); 
 		
 		String baseServletPath = getServletContext().getContextPath();
-		
+				
 		serviceRouteList.add(createNewRoute(baseServletPath+"/service/serverinfo",
-				new GetServerInfoRequestHandler(ServiceTypeEnum.GET,null)));
+				new GetServerInfoRequestHandler(ServiceTypeEnum.GET,null,new SessionFactoryInMemory())));
 				
 		serviceRouteList.add(createNewRoute(baseServletPath+"/service/hello",
-				new HelloRequestHandler(ServiceTypeEnum.GET,null)));
+				new HelloRequestHandler(ServiceTypeEnum.GET,null,new SessionFactoryInMemory())));
 						
 		return(serviceRouteList);
 	}

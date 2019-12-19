@@ -83,9 +83,9 @@ public abstract class ServiceMapperServlet extends HttpServlet
 			
 			
 			RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
-			// 2018-06-29 NEW!  posbile issue with concurency
+			// 2018-06-29 NEW!  possible issue with concurrency
 			requestTypeHandler.setServiceRoute(firstServiceRoute);
-			requestTypeHandler.processRequest(req, res);
+			requestTypeHandler.processRequest(req, res,requestTypeHandler.getSessionFactory().getSession(req));
 					
 		}		
 		long elapsedTime = new java.util.Date().getTime() - startTime.getTime();	    

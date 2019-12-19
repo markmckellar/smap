@@ -13,13 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.smap.db.dao.QueryTimer;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
 import org.smap.serviceroute.ServiceRoute;
+import org.smap.session.SessionFactoryInterface;
 import org.smap.util.Log;
 
 
 public class SqlHelloWorld extends SqlServiceHandler {
 
-	public SqlHelloWorld(ServiceTypeEnum serviceType, SqlServcieHandlerFactory sqlServcieHandlerFactory,ServiceRoute serviceRoute) {
-		super(serviceType, sqlServcieHandlerFactory,serviceRoute);
+	public SqlHelloWorld(ServiceTypeEnum serviceType,
+			SqlServcieHandlerFactory sqlServcieHandlerFactory,
+			ServiceRoute serviceRoute,
+			SessionFactoryInterface sessionFactory) {
+		super(serviceType, sqlServcieHandlerFactory,serviceRoute,sessionFactory);
 	}
 	
 	@Override
