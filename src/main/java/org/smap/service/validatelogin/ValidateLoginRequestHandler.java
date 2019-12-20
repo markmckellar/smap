@@ -22,8 +22,8 @@ public abstract class ValidateLoginRequestHandler extends SqlServiceHandler
 	
 	public static final String SESSION_VALIDATED = "validated";
 
-	public ValidateLoginRequestHandler(ServiceTypeEnum serviceType,SqlServcieHandlerFactory sqlServcieHandlerFactory,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) { 
-		super(serviceType,sqlServcieHandlerFactory,serviceRoute,sessionFactory);
+	public ValidateLoginRequestHandler(ServiceTypeEnum serviceType,SqlServcieHandlerFactory sqlServcieHandlerFactory,ServiceRoute serviceRoute) { 
+		super(serviceType,sqlServcieHandlerFactory,serviceRoute);
 	}
 	
 	public abstract void setValidatedSessionInfo(LoginCredentials loginCredentials,HttpServletRequest req,HttpServletResponse res) throws ServletException;

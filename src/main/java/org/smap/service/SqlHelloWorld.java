@@ -21,9 +21,8 @@ public class SqlHelloWorld extends SqlServiceHandler {
 
 	public SqlHelloWorld(ServiceTypeEnum serviceType,
 			SqlServcieHandlerFactory sqlServcieHandlerFactory,
-			ServiceRoute serviceRoute,
-			SessionFactoryInterface sessionFactory) {
-		super(serviceType, sqlServcieHandlerFactory,serviceRoute,sessionFactory);
+			ServiceRoute serviceRoute) {
+		super(serviceType, sqlServcieHandlerFactory,serviceRoute);
 	}
 	
 	@Override

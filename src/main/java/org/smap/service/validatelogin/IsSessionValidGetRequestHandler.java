@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 public class IsSessionValidGetRequestHandler extends RequestTypeHandler {
 	
 	public IsSessionValidGetRequestHandler(ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
-		super(ServiceTypeEnum.GET, serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
+		super(ServiceTypeEnum.GET, serviceRoute,new ArrayList<Interceptor>());
 	}
 
 	public void handleRequestType(HttpServletRequest req, HttpServletResponse res)

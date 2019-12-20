@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.smap.service.RequestTypeHandler;
 import org.smap.service.RequestTypeHandler.ServiceTypeEnum;
 import org.smap.serviceroute.ServiceRoute;
-
+import org.smap.session.SessionFactoryInterface;
 import org.smap.util.Log;
 
 public abstract class ServiceMapperServlet extends HttpServlet
@@ -55,6 +55,8 @@ public abstract class ServiceMapperServlet extends HttpServlet
 		return(firstServiceRoute);
 	}
 
+	abstract public SessionFactoryInterface getSessionFactory() throws ServletException;
+	
 	public ServiceRoute createNewRoute(String path,RequestTypeHandler requestTypeHandler) throws Exception
 	{
 		ServiceRoute serviceRoute = new ServiceRoute(path,this);
@@ -85,7 +87,7 @@ public abstract class ServiceMapperServlet extends HttpServlet
 			RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
 			// 2018-06-29 NEW!  possible issue with concurrency
 			requestTypeHandler.setServiceRoute(firstServiceRoute);
-			requestTypeHandler.processRequest(req, res,requestTypeHandler.getSessionFactory().getSession(req));
+			requestTypeHandler.processRequest(req, res,getSessionFactory().getSession(req));
 					
 		}		
 		long elapsedTime = new java.util.Date().getTime() - startTime.getTime();	    

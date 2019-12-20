@@ -23,7 +23,7 @@ import com.google.gson.reflect.TypeToken;
 public class GetServerInfoRequestHandler extends RequestTypeHandler
 {	
 	public GetServerInfoRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
-		super(serviceType,serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
+		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
 	}	
 	
 	public void populateInfoMap(HttpServletRequest req, HttpServletResponse res,Map<String,Object> infoMap)

@@ -14,16 +14,23 @@ import org.smap.service.RequestTypeHandler;
 import org.smap.service.RequestTypeHandler.ServiceTypeEnum;
 import org.smap.serviceroute.ServiceRoute;
 import org.smap.session.SessionFactoryInMemory;
+import org.smap.session.SessionFactoryInterface;
 
 
 @SuppressWarnings("serial")
 public class SMapTest extends ServiceMapperServlet
 {
+	// new SessionFactoryInMemory()
 	
     public void init( ServletConfig config ) throws ServletException
     {
         super.init(config);
     }
+    
+	public SessionFactoryInterface getSessionFactory() throws ServletException {
+		return(new SessionFactoryInMemory());
+	}
+
 
 	public List<ServiceRoute> getInitServiceRouteList() throws Exception
 	{		
@@ -35,7 +42,7 @@ public class SMapTest extends ServiceMapperServlet
 				new GetServerInfoRequestHandler(ServiceTypeEnum.GET,null,new SessionFactoryInMemory())));
 				
 		serviceRouteList.add(createNewRoute(baseServletPath+"/service/hello",
-				new HelloRequestHandler(ServiceTypeEnum.GET,null,new SessionFactoryInMemory())));
+				new HelloRequestHandler(ServiceTypeEnum.GET,null)));
 						
 		return(serviceRouteList);
 	}

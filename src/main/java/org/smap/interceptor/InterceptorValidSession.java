@@ -18,8 +18,7 @@ public class InterceptorValidSession extends RequestTypeHandler implements Inter
 	public InterceptorValidSession(RequestTypeHandler requestTypeHandler) {
 		super(requestTypeHandler.getServiceType(),
 				requestTypeHandler.getServiceRoute(),
-				new ArrayList<Interceptor>(),
-				requestTypeHandler.getSessionFactory());
+				new ArrayList<Interceptor>());
 	}
 	
 	public RequestTypeHandler getRequestTypeHandler()

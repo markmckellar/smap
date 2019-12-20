@@ -13,8 +13,8 @@ import org.smap.session.SessionFactoryInterface;
 
 public class HelloRequestHandler extends RequestTypeHandler
 {
-	public HelloRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
-		super(serviceType,serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
+	public HelloRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute) {
+		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
 	}
 
 	public void handleRequestType(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

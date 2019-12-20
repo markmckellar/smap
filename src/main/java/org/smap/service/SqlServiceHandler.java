@@ -22,15 +22,14 @@ public abstract class SqlServiceHandler extends RequestTypeHandler
 
 	public SqlServiceHandler(SqlServiceHandler sqlServiceHandler) {
 		super(sqlServiceHandler.getServiceType(),
-				sqlServiceHandler.getServiceRoute(),sqlServiceHandler.getInterceptorList(),
-				sqlServiceHandler.getSessionFactory());
+				sqlServiceHandler.getServiceRoute(),sqlServiceHandler.getInterceptorList());
 		this.setSqlServcieHandlerFactory(sqlServiceHandler.sqlServcieHandlerFactory);
 	}
 	
 	public SqlServiceHandler(ServiceTypeEnum serviceType,
 			SqlServcieHandlerFactory sqlServcieHandlerFactory,
-			ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
-		super(serviceType,serviceRoute,new ArrayList<Interceptor>(),sessionFactory);
+			ServiceRoute serviceRoute) {
+		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
 		this.setSqlServcieHandlerFactory(sqlServcieHandlerFactory);
 	}
 	
