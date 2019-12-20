@@ -34,7 +34,7 @@ public class IsSessionValidGetRequestHandler extends RequestTypeHandler {
 	    boolean isValidated = false;
 	    if(req.getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED)!=null)
 	    {
-	    	isValidated = (boolean)req.getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED);
+	    	isValidated = (boolean)getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED);
 	    }
 	    	    
  		StatusMessageResponse statusMessageResponse = new StatusMessageResponse("is valid session",isValidated,"");			

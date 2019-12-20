@@ -45,7 +45,7 @@ public abstract class ValidateLoginRequestHandler extends SqlServiceHandler
 		StatusMessageResponse statusMessageResponse = validateLoginCredentialValid(loginCredentials,req,res);
 		if(statusMessageResponse.isSuccess())
 		{
-			req.getSession().setAttribute(SESSION_VALIDATED,true);
+			getSession().setAttribute(SESSION_VALIDATED,true);
 			setValidatedSessionInfo(loginCredentials,req,res);
 		}
 		String json = gson.toJson(statusMessageResponse,statusMessageResponseType);		

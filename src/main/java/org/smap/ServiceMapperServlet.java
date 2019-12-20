@@ -15,6 +15,7 @@ import org.smap.service.RequestTypeHandler;
 import org.smap.service.RequestTypeHandler.ServiceTypeEnum;
 import org.smap.serviceroute.ServiceRoute;
 import org.smap.session.SessionFactoryInterface;
+import org.smap.session.SessionInterface;
 import org.smap.util.Log;
 
 public abstract class ServiceMapperServlet extends HttpServlet
@@ -87,8 +88,34 @@ public abstract class ServiceMapperServlet extends HttpServlet
 			RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
 			// 2018-06-29 NEW!  possible issue with concurrency
 			requestTypeHandler.setServiceRoute(firstServiceRoute);
-			requestTypeHandler.processRequest(req, res,getSessionFactory().getSession(req));
-					
+			SessionInterface session = null;
+			try
+			{
+				session = getSessionFactory().getNewSession(req, res);
+				requestTypeHandler.setSession(session);
+				requestTypeHandler.processRequest(req,res);
+				session.closeSession();
+			}
+			catch(Exception e) {
+				if(session!=null)
+				try {
+					session.closeSession();
+					session = null;
+				}
+				catch(Exception eclose) {
+					Log.error("Error closing a session! : "+eclose.getMessage()+" initial error : "+e.getMessage());
+				}
+			}
+			finally {
+				if(session!=null)
+					try {
+						session.closeSession();
+						session = null;
+					}
+					catch(Exception eclose) {
+						Log.error("Error closing a session at final! : "+eclose.getMessage());
+					}
+			}
 		}		
 		long elapsedTime = new java.util.Date().getTime() - startTime.getTime();	    
 		Log.info("------- ending "+req.getRequestURI()+":service elapsedTime:"+elapsedTime+" -----------------------------"+":req="+req.hashCode());		

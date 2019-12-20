@@ -15,10 +15,10 @@ public interface Interceptor
 	
 	public boolean wasIntercepted() throws ServletException,IOException;
 
-	default boolean processInterceptor(HttpServletRequest req, HttpServletResponse res,SessionInterface session) throws ServletException,IOException
+	default boolean processInterceptor(HttpServletRequest req, HttpServletResponse res) throws ServletException,IOException
 	{
 		RequestTypeHandler requestTypeHandler = getRequestTypeHandler().getNewInstance(req, res);
-		requestTypeHandler.processRequest(req, res,session);
+		requestTypeHandler.processRequest(req, res);
 		return(wasIntercepted());
 	}
 }

@@ -28,6 +28,7 @@ public abstract class RequestTypeHandler implements Cloneable
 	private ServiceTypeEnum serviceType;
 	private List<ServiceHandlerResource> serviceHandlerResourceListPre;
 	private List<Interceptor> interceptorList;
+	private SessionInterface session;
 
 	
 	public RequestTypeHandler(ServiceTypeEnum serviceType,
@@ -37,6 +38,7 @@ public abstract class RequestTypeHandler implements Cloneable
 		this.setServiceHandlerResourceList(new ArrayList<ServiceHandlerResource>());
 		this.setServiceRoute(serviceRoute);
 		this.setInterceptorList(interceptorList);
+		this.setSession(null);
 	}
 	
 	public RequestTypeHandler getNewInstance(HttpServletRequest req,HttpServletResponse res) throws ServletException
@@ -46,6 +48,7 @@ public abstract class RequestTypeHandler implements Cloneable
 		{
 			clone = (RequestTypeHandler) clone();
 			clone.setServiceHandlerResourceList(new ArrayList<ServiceHandlerResource>());
+			clone.setServiceHandlerResourceList(null);
 		}
 		catch(Exception e)
 		{
@@ -62,22 +65,22 @@ public abstract class RequestTypeHandler implements Cloneable
 	//public abstract RequestTypeHandler getNewInstance(HttpServletRequest req,HttpServletResponse res) throws ServletException;
 	public abstract void handleRequestType(HttpServletRequest req,HttpServletResponse res) throws ServletException,java.io.IOException;	
 	
-	public void processRequest(HttpServletRequest req,HttpServletResponse res,SessionInterface session) throws ServletException,java.io.IOException
+	public void processRequest(HttpServletRequest req,
+			HttpServletResponse res) throws ServletException,java.io.IOException
 	{
-		processRequest(this,req,res,session);
+		processRequest(this,req,res);
 	}
 
 	public static void processRequest(RequestTypeHandler requestTypeHandler,
 			HttpServletRequest req,
-			HttpServletResponse res,
-			SessionInterface session) throws ServletException,java.io.IOException
+			HttpServletResponse res) throws ServletException,java.io.IOException
 	{
 		boolean wasIntercepted = false;
 		Log.debug("Checking interceptor List for:"+req.getRequestURI()+":getInterceptorList.size="+requestTypeHandler.getInterceptorList().size());				
 
 		for(Interceptor interceptor:requestTypeHandler.getInterceptorList()) 
 		{
-			wasIntercepted = interceptor.processInterceptor(req,res,session);
+			wasIntercepted = interceptor.processInterceptor(req,res);
 			Log.debug("Checking interceptor List for:"+req.getRequestURI()+
 					":interceptor="+interceptor.getClass()+
 					":wasIntercepted="+wasIntercepted+
@@ -87,13 +90,12 @@ public abstract class RequestTypeHandler implements Cloneable
 			if(wasIntercepted) break;
 		}
 		
-		if(!wasIntercepted) processRequestInner(requestTypeHandler,req,res,session);
+		if(!wasIntercepted) processRequestInner(requestTypeHandler,req,res);
 	}
 	
 	public static void processRequestInner(RequestTypeHandler requestTypeHandler,
 			HttpServletRequest req,
-			HttpServletResponse res,
-			SessionInterface session) throws ServletException,java.io.IOException
+			HttpServletResponse res) throws ServletException,java.io.IOException
 
 	{
 		try
@@ -272,6 +274,14 @@ public abstract class RequestTypeHandler implements Cloneable
 	}
 	public void setInterceptorList(List<Interceptor> interceptorList) {
 		this.interceptorList = interceptorList;
+	}
+
+	public SessionInterface getSession() {
+		return session;
+	}
+
+	public void setSession(SessionInterface session) {
+		this.session = session;
 	}
 
 }
