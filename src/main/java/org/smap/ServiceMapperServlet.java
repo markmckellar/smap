@@ -85,21 +85,29 @@ public abstract class ServiceMapperServlet extends HttpServlet
 					"");
 			
 			
-			RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
+			//RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
 			// 2018-06-29 NEW!  possible issue with concurrency
-			requestTypeHandler.setServiceRoute(firstServiceRoute);
+			//requestTypeHandler.setServiceRoute(firstServiceRoute);
 			SessionInterface session = null;
 			try
-			{
+			{				
 				session = getSessionFactory().getNewSession(req, res);
+				session.initSession();
+				
+				RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(session,req, res);
+				requestTypeHandler.setServiceRoute(firstServiceRoute);				
 				requestTypeHandler.setSession(session);
 				requestTypeHandler.processRequest(req,res);
 				session.closeSession();
 			}
 			catch(Exception e) {
+				Log.error("ServcieMapperServlet:routeService:had error:"+e.getMessage());
+
 				if(session!=null)
 				try {
-					session.closeSession();
+					Log.error("ServcieMapperServlet:routeService:trying to close session resource:had error:"+e.getMessage());
+					e.printStackTrace();
+					session.getServiceHandlerResource().closeResourceOnError(req, res);;
 					session = null;
 				}
 				catch(Exception eclose) {
@@ -109,7 +117,7 @@ public abstract class ServiceMapperServlet extends HttpServlet
 			finally {
 				if(session!=null)
 					try {
-						session.closeSession();
+						session.getServiceHandlerResource().closeResource(req, res);;
 						session = null;
 					}
 					catch(Exception eclose) {

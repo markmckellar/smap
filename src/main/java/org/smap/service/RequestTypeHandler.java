@@ -41,14 +41,14 @@ public abstract class RequestTypeHandler implements Cloneable
 		this.setSession(null);
 	}
 	
-	public RequestTypeHandler getNewInstance(HttpServletRequest req,HttpServletResponse res) throws ServletException
+	public RequestTypeHandler getNewInstance(SessionInterface session,HttpServletRequest req,HttpServletResponse res) throws ServletException
 	{
 		RequestTypeHandler clone = null;
 		try
 		{
 			clone = (RequestTypeHandler) clone();
 			clone.setServiceHandlerResourceList(new ArrayList<ServiceHandlerResource>());
-			clone.setServiceHandlerResourceList(null);
+			clone.setSession(session);
 		}
 		catch(Exception e)
 		{
@@ -80,7 +80,8 @@ public abstract class RequestTypeHandler implements Cloneable
 
 		for(Interceptor interceptor:requestTypeHandler.getInterceptorList()) 
 		{
-			wasIntercepted = interceptor.processInterceptor(req,res);
+			
+			wasIntercepted = interceptor.processInterceptor(requestTypeHandler.getSession(),req,res);
 			Log.debug("Checking interceptor List for:"+req.getRequestURI()+
 					":interceptor="+interceptor.getClass()+
 					":wasIntercepted="+wasIntercepted+
@@ -246,14 +247,14 @@ public abstract class RequestTypeHandler implements Cloneable
 		
 		for(ServiceHandlerResource serviceHandlerResource:getServiceHandlerResourceList())
 		{
-			serviceHandlerResource.initResource(req,res,this);			
+			serviceHandlerResource.initResource(req,res);			
 		}
 			
 	}
 
 	public void closeResources(HttpServletRequest req, HttpServletResponse res) throws Exception{
 		for(ServiceHandlerResource serviceHandlerResource:this.getServiceHandlerResourceList())
-			serviceHandlerResource.closeResource(req,res,this);		
+			serviceHandlerResource.closeResource(req,res);		
 	}
 
 	public ServiceRoute getServiceRoute() {
@@ -266,7 +267,7 @@ public abstract class RequestTypeHandler implements Cloneable
 
 	public void closeResourcesOnError(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		for(ServiceHandlerResource serviceHandlerResource:this.getServiceHandlerResourceList())
-			serviceHandlerResource.closeResourceOnError(req,res,this);			
+			serviceHandlerResource.closeResourceOnError(req,res);			
 	}
 
 	public List<Interceptor> getInterceptorList() {

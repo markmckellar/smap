@@ -28,9 +28,9 @@ public class InterceptorValidSession extends RequestTypeHandler implements Inter
 
 	public boolean isInterceptable(HttpServletRequest req, HttpServletResponse res) throws ServletException {
 		boolean isInterceptable = true;
-		if(getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED)!=null)
+		if(this.getRequestTypeHandler().getSession().doesAttributeExist(ValidateLoginRequestHandler.SESSION_VALIDATED))
 	    {
-			isInterceptable = ! ((boolean)req.getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED) );
+			isInterceptable = ! (getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED,boolean.class) );
 	    }
 		return(isInterceptable);
 	}

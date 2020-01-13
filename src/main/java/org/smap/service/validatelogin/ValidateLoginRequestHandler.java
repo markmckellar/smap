@@ -42,7 +42,10 @@ public abstract class ValidateLoginRequestHandler extends SqlServiceHandler
 		//LoginCredentials loginCredentials = gson.fromJson(jsonString, LoginCredentials.class);
 		Log.info(loginCredentials.toString());
 		
+		Log.debug("calling extended validateLoginCredentialValid");
 		StatusMessageResponse statusMessageResponse = validateLoginCredentialValid(loginCredentials,req,res);
+		Log.debug("called extended validateLoginCredentialValid:statusMessageResponse.isSuccess()="+statusMessageResponse.isSuccess());
+
 		if(statusMessageResponse.isSuccess())
 		{
 			getSession().setAttribute(SESSION_VALIDATED,true);

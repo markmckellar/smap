@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class GetServerInfoRequestHandler extends RequestTypeHandler
 {	
-	public GetServerInfoRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute,SessionFactoryInterface sessionFactory) {
+	public GetServerInfoRequestHandler(ServiceTypeEnum serviceType,ServiceRoute serviceRoute) {
 		super(serviceType,serviceRoute,new ArrayList<Interceptor>());
 	}	
 	

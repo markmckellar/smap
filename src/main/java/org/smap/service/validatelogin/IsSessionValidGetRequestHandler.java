@@ -29,12 +29,12 @@ public class IsSessionValidGetRequestHandler extends RequestTypeHandler {
 			throws ServletException, IOException {
 		Gson gson = new Gson();
 		Type statusMessageResponseType = new TypeToken<StatusMessageResponse>() {}.getType();
-	    Log.debug( "CheckForValidSession: " + req.getSession().getId() );
+	    Log.debug( "CheckForValidSession: " + getSession().getSessionKey() );
 	    
 	    boolean isValidated = false;
-	    if(req.getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED)!=null)
+	    if(getSession().doesAttributeExist(ValidateLoginRequestHandler.SESSION_VALIDATED))
 	    {
-	    	isValidated = (boolean)getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED);
+	    	isValidated = getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED,boolean.class);
 	    }
 	    	    
  		StatusMessageResponse statusMessageResponse = new StatusMessageResponse("is valid session",isValidated,"");			

@@ -15,7 +15,7 @@ public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource
 	
 	abstract public Connection getNewConnection(HttpServletRequest req) throws Exception;
 
-	public void initResource(HttpServletRequest req, HttpServletResponse res,RequestTypeHandler requestTypeHandler) throws ServletException {
+	public void initResource(HttpServletRequest req, HttpServletResponse res) throws ServletException {
 		try	
 		{
 			Log.debug("SqlServcieHandlerResorce:initResource:starting for :"+req.getRequestURI()+":this="+this+":req="+req.hashCode());				
@@ -35,12 +35,11 @@ public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource
 		}		
 	}
 
-	public void processInitResourceException(HttpServletRequest req, HttpServletResponse res,RequestTypeHandler requestTypeHandler,Exception exception) throws ServletException {
+	public void processInitResourceException(HttpServletRequest req, HttpServletResponse res,Exception exception) throws ServletException {
 		throw new ServletException("Error opening sql connection : "+exception.getMessage(),exception);				
 	}
 	
-	public void closeResourceOnError(HttpServletRequest req, HttpServletResponse res,
-			RequestTypeHandler requestTypeHandler) throws ServletException 
+	public void closeResourceOnError(HttpServletRequest req, HttpServletResponse res) throws ServletException 
 	{ 
 		try
 		{
@@ -60,7 +59,7 @@ public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource
 		}
 	}
 
-	public void closeResource(HttpServletRequest req, HttpServletResponse res,RequestTypeHandler requestTypeHandler) throws ServletException {
+	public void closeResource(HttpServletRequest req, HttpServletResponse res) throws ServletException {
 		try	
 		{
 			Log.debug("SqlServcieHandlerResorce:closeResource:starting for :"+req.getRequestURI()+":connection="+getConnection()+":this="+this+":req="+req.hashCode());				
@@ -110,7 +109,7 @@ public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource
 
 	}
 
-	public void processCloseResourceException(HttpServletRequest req, HttpServletResponse res,RequestTypeHandler requestTypeHandler,Exception exception) throws ServletException {
+	public void processCloseResourceException(HttpServletRequest req, HttpServletResponse res,Exception exception) throws ServletException {
 		throw new ServletException("Error closing sql connection : "+exception.getMessage(),exception);						
 	}
 

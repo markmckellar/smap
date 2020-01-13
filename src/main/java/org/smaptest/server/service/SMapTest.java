@@ -39,7 +39,7 @@ public class SMapTest extends ServiceMapperServlet
 		String baseServletPath = getServletContext().getContextPath();
 				
 		serviceRouteList.add(createNewRoute(baseServletPath+"/service/serverinfo",
-				new GetServerInfoRequestHandler(ServiceTypeEnum.GET,null,new SessionFactoryInMemory())));
+				new GetServerInfoRequestHandler(ServiceTypeEnum.GET,null)));
 				
 		serviceRouteList.add(createNewRoute(baseServletPath+"/service/hello",
 				new HelloRequestHandler(ServiceTypeEnum.GET,null)));
