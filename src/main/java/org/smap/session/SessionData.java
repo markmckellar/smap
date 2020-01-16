@@ -37,7 +37,11 @@ public class SessionData {
 		SessionData sessionData = gson.fromJson(sessionDataJsonString,jsonType);
 		return(sessionData);
 	}
-		
+	
+	public boolean doesSessionHaveData() {
+		return(! this.sessionDataMap.isEmpty());
+	}
+	
 	public String getJsonString() {
 		Gson gson = new Gson();
 		Type jsonType = new TypeToken<SessionData>() {}.getType();

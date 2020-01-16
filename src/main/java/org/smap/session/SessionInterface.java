@@ -9,15 +9,12 @@ import org.smap.serviceresource.ServiceHandlerResource;
 
 public interface SessionInterface {
 	public String getSessionKey();
-	public void initSession() throws Exception;
+	public void initSession() throws ServletException;
 	public HttpServletRequest getRequest();
 	public HttpServletResponse getResponse();
-   // public Object getAttribute(String attributeKey);
     public <T> T  getAttribute(String attributeKey,Class<T> objectClass);
     public void setAttribute(String attributeKey,Object attributeObject) throws ServletException;
     public boolean doesAttributeExist(String attributeKey);
     public void closeSession() throws ServletException;
     public void invalidate() throws ServletException;
-    public ServiceHandlerResource getServiceHandlerResource();
-
 }

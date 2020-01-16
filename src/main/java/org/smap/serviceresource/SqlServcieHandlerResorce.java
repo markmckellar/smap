@@ -54,7 +54,7 @@ public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource
 		catch(Exception e)
 		{
 			Log.debug("***** ERROR SqlServcieHandlerResorce:closeResourceOnError:done for :"+req.getRequestURI()+":"+e.getMessage()+":this="+this+":req="+req.hashCode());
-			
+			closeConnection(req);
 			throw new ServletException(e);
 		}
 	}

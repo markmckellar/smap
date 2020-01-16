@@ -70,13 +70,13 @@ public class SessionInMemory implements SessionInterface {
 		Log.info(getIdString()+":setAttribute:Setting atribute:"+attributeKey+":value="+attributeObject.toString());
 	}
 
-	@Override
-	public ServiceHandlerResource getServiceHandlerResource() {
-		return this.emptyServiceHandlerResource;
-	}
+	//@Override
+	//public ServiceHandlerResource getServiceHandlerResource() {
+	//	return this.emptyServiceHandlerResource;
+	//}
 
 	@Override
-	public void initSession() throws Exception {		
+	public void initSession() throws ServletException {		
 	}
 
 	@Override

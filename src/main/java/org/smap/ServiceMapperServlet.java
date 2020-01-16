@@ -89,41 +89,33 @@ public abstract class ServiceMapperServlet extends HttpServlet
 			// 2018-06-29 NEW!  possible issue with concurrency
 			//requestTypeHandler.setServiceRoute(firstServiceRoute);
 			SessionInterface session = null;
-			try
-			{				
-				session = getSessionFactory().getNewSession(req, res);
+			
+			
+				Log.debug("ServcieMapperServlet:routeService:processing:1"+":req="+req.hashCode());
+				session = getSessionFactory().getNewSession(req, res);				
+				Log.debug("ServcieMapperServlet:routeService:processing:2"+":req="+req.hashCode());
 				session.initSession();
+				Log.debug("ServcieMapperServlet:routeService:processing:3"+":req="+req.hashCode());
+				
+				
+				
 				
 				RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(session,req, res);
+				Log.debug("ServcieMapperServlet:routeService:processing:4"+":req="+req.hashCode());
 				requestTypeHandler.setServiceRoute(firstServiceRoute);				
+				Log.debug("ServcieMapperServlet:routeService:processing:5"+":req="+req.hashCode());
 				requestTypeHandler.setSession(session);
+				Log.debug("ServcieMapperServlet:routeService:processing:6"+":req="+req.hashCode());
 				requestTypeHandler.processRequest(req,res);
+				
+				
+				
+				
+				Log.debug("ServcieMapperServlet:routeService:processing:7"+":req="+req.hashCode());
 				session.closeSession();
-			}
-			catch(Exception e) {
-				Log.error("ServcieMapperServlet:routeService:had error:"+e.getMessage());
+				Log.debug("ServcieMapperServlet:routeService:processing:8"+":req="+req.hashCode());
+			
 
-				if(session!=null)
-				try {
-					Log.error("ServcieMapperServlet:routeService:trying to close session resource:had error:"+e.getMessage());
-					e.printStackTrace();
-					session.getServiceHandlerResource().closeResourceOnError(req, res);;
-					session = null;
-				}
-				catch(Exception eclose) {
-					Log.error("Error closing a session! : "+eclose.getMessage()+" initial error : "+e.getMessage());
-				}
-			}
-			finally {
-				if(session!=null)
-					try {
-						session.getServiceHandlerResource().closeResource(req, res);;
-						session = null;
-					}
-					catch(Exception eclose) {
-						Log.error("Error closing a session at final! : "+eclose.getMessage());
-					}
-			}
 		}		
 		long elapsedTime = new java.util.Date().getTime() - startTime.getTime();	    
 		Log.info("------- ending "+req.getRequestURI()+":service elapsedTime:"+elapsedTime+" -----------------------------"+":req="+req.hashCode());		
@@ -152,21 +144,18 @@ public abstract class ServiceMapperServlet extends HttpServlet
     {       
     	Log.info("doDelete:uri="+req.getRequestURI());
     	routeService(req,res,ServiceTypeEnum.DELETE);
-        //doPost(req, res);
     }
 
     public void doGet( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException
     {       
     	Log.info("doGet:uri="+req.getRequestURI());
     	routeService(req,res,ServiceTypeEnum.GET);
-        //doPost(req, res);
     }
     
     public void doHead( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException
     {       
     	Log.info("doHead:uri="+req.getRequestURI());
     	routeService(req,res,ServiceTypeEnum.HEAD);
-        //doPost(req, res);
     }
 
     public void doPost( HttpServletRequest req, HttpServletResponse res ) throws ServletException, IOException
@@ -179,7 +168,6 @@ public abstract class ServiceMapperServlet extends HttpServlet
     {       
     	Log.info("doPut:uri="+req.getRequestURI());
     	routeService(req,res,ServiceTypeEnum.PUT);
-        //doPost(req, res);
     }
 
 	public List<ServiceRoute> getServiceRouteList() {
