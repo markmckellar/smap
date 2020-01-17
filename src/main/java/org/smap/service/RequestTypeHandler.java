@@ -125,7 +125,7 @@ public abstract class RequestTypeHandler implements Cloneable
 			{
 				Log.debug("***** Error on closeResourcesOnError"+":req="+req.hashCode());
 				ex.printStackTrace();
-				throw new ServletException("Error on closeResourcesOnError");
+				throw new ServletException(ex);
 			}
             Log.debug(e);
         	e.printStackTrace();

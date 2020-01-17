@@ -37,6 +37,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 	private boolean sessionShouldBeInvalidated;
 	CloseSessionRequestHandler closeSessionRequestHandler;
 	InitSessionRequestHandler initSessionRequestHandler;
+	ClearSessionStorageRequestHandler clearSessionStorageRequestHandler;
 	
 	public static void main(String[] args) throws Exception {
 
@@ -67,6 +68,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 		 this.sessionShouldBeInvalidated = false;
 		 closeSessionRequestHandler = new CloseSessionRequestHandler(sqlServcieHandlerFactory,null);
 		 initSessionRequestHandler = new InitSessionRequestHandler(sqlServcieHandlerFactory,null);
+		 clearSessionStorageRequestHandler = new ClearSessionStorageRequestHandler(sqlServcieHandlerFactory,null);
 	}
 	
 	@Override
@@ -137,7 +139,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 	public abstract SessionData readSessionDataFromDb(Connection connection,String sessionKey) throws Exception;
     public abstract void updateSessionInDB(Connection connection) throws Exception;
     public abstract void insertSessionToDB(Connection connection) throws Exception;
-
+    public abstract void clearSessionStorage(Connection connection) throws Exception;
 
 	public boolean doesSessionExistsInDB(Connection connection,String sessionKey) throws Exception
     {
@@ -149,22 +151,48 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
     
     @Override
 	public void closeSession() throws ServletException {
+    	Log.debug(getIdStringBase()+":closeSession:processing:1"+":req="+request.hashCode());
+    	closeSessionObject();		
+    	closeSessionClearSessionStorage();
+		Log.debug(getIdStringBase()+":closeSession:processing:2"+":req="+request.hashCode());
+		
+	}
+    
+    protected void closeSessionClearSessionStorage() throws ServletException {
+    	RequestTypeHandler requestTypeHandler = clearSessionStorageRequestHandler.getNewInstance(null,request,response);
+    	ClearSessionStorageRequestHandler css = (ClearSessionStorageRequestHandler)requestTypeHandler;
+		
+		Log.debug(getIdStringBase()+":closeSessionClearSessionStorage:processing:1"+":req="+request.hashCode());
+		css.setServiceRoute(null);				
+		Log.debug(getIdStringBase()+":closeSessionClearSessionStorage:processing:2"+":req="+request.hashCode());
+		css.setSession(null);
+		css.setDataBaseSessionHandler(this);
+		Log.debug(getIdStringBase()+":closeSessionClearSessionStorage:processing:3"+":req="+request.hashCode());
+		try {
+			css.processRequest(request,response);
+		}
+		catch(Exception e) {
+			throw new ServletException(e);
+		}
+    }
+    
+    protected void closeSessionObject() throws ServletException {
     	RequestTypeHandler requestTypeHandler = closeSessionRequestHandler.getNewInstance(null,request,response);
     	CloseSessionRequestHandler csh = (CloseSessionRequestHandler)requestTypeHandler;
 		
-		Log.debug(getIdStringBase()+":initSession:processing:1"+":req="+request.hashCode());
+		Log.debug(getIdStringBase()+":closeSessionObject:processing:1"+":req="+request.hashCode());
 		csh.setServiceRoute(null);				
-		Log.debug(getIdStringBase()+":initSession:processing:2"+":req="+request.hashCode());
+		Log.debug(getIdStringBase()+":closeSessionObject:processing:2"+":req="+request.hashCode());
 		csh.setSession(null);
 		csh.setDataBaseSessionHandler(this);
-		Log.debug(getIdStringBase()+":initSession:processing:3"+":req="+request.hashCode());
+		Log.debug(getIdStringBase()+":closeSessionObject:processing:3"+":req="+request.hashCode());
 		try {
 			csh.processRequest(request,response);
 		}
 		catch(Exception e) {
 			throw new ServletException(e);
 		}
-	}
+    }
     
 	public void closeSession(Connection connection) throws ServletException {
 		Log.debug(  getIdString()+":closeSession:start");

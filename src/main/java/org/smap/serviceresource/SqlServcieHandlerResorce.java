@@ -43,13 +43,13 @@ public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource
 	{ 
 		try
 		{
-			Log.debug("SqlServcieHandlerResorce:closeResourceOnError:starting for :"+req.getRequestURI()+":this="+this+":req="+req.hashCode());				
-			
-			getConnection().rollback();
-			getConnection().setAutoCommit( true );
-			closeConnection(req);
-	        Log.debug("SqlServcieHandlerResorce:closeResourceOnError:done for :"+req.getRequestURI()+":this="+this+":req="+req.hashCode());
-			
+			if(this.getConnection()!=null) {
+				Log.debug("SqlServcieHandlerResorce:closeResourceOnError:starting for :"+req.getRequestURI()+":this="+this+":req="+req.hashCode());				
+				getConnection().rollback();
+				getConnection().setAutoCommit( true );
+				closeConnection(req);
+		        Log.debug("SqlServcieHandlerResorce:closeResourceOnError:done for :"+req.getRequestURI()+":this="+this+":req="+req.hashCode());
+			}
 		}
 		catch(Exception e)
 		{

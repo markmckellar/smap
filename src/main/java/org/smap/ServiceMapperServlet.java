@@ -83,39 +83,25 @@ public abstract class ServiceMapperServlet extends HttpServlet
 					":serviceTypeEnum="+serviceTypeEnum+
 					":req="+req.hashCode()+
 					"");
+		
+			Log.debug("ServcieMapperServlet:routeService:processing:1"+":req="+req.hashCode());
+			SessionInterface session = getSessionFactory().getNewSession(req, res);				
+			session.initSession();
+						
+			Log.debug("ServcieMapperServlet:routeService:processing:2"+":req="+req.hashCode());
+			RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(session,req, res);				
+			requestTypeHandler.setServiceRoute(firstServiceRoute);								
+			requestTypeHandler.setSession(session);				
+			requestTypeHandler.processRequest(req,res);
+			
+			Log.debug("ServcieMapperServlet:routeService:processing:3"+":req="+req.hashCode());
+			session.closeSession();
+			Log.debug("ServcieMapperServlet:routeService:processing:4"+":req="+req.hashCode());
 			
 			
-			//RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(req, res);
-			// 2018-06-29 NEW!  possible issue with concurrency
-			//requestTypeHandler.setServiceRoute(firstServiceRoute);
-			SessionInterface session = null;
-			
-			
-				Log.debug("ServcieMapperServlet:routeService:processing:1"+":req="+req.hashCode());
-				session = getSessionFactory().getNewSession(req, res);				
-				Log.debug("ServcieMapperServlet:routeService:processing:2"+":req="+req.hashCode());
-				session.initSession();
-				Log.debug("ServcieMapperServlet:routeService:processing:3"+":req="+req.hashCode());
+			Log.debug("ServcieMapperServlet:routeService:processing:5"+":req="+req.hashCode());
+			Log.debug("ServcieMapperServlet:routeService:processing:6"+":req="+req.hashCode());
 				
-				
-				
-				
-				RequestTypeHandler requestTypeHandler = firstServiceRoute.getMathcingServiceTypeEnum(serviceTypeEnum).getNewInstance(session,req, res);
-				Log.debug("ServcieMapperServlet:routeService:processing:4"+":req="+req.hashCode());
-				requestTypeHandler.setServiceRoute(firstServiceRoute);				
-				Log.debug("ServcieMapperServlet:routeService:processing:5"+":req="+req.hashCode());
-				requestTypeHandler.setSession(session);
-				Log.debug("ServcieMapperServlet:routeService:processing:6"+":req="+req.hashCode());
-				requestTypeHandler.processRequest(req,res);
-				
-				
-				
-				
-				Log.debug("ServcieMapperServlet:routeService:processing:7"+":req="+req.hashCode());
-				session.closeSession();
-				Log.debug("ServcieMapperServlet:routeService:processing:8"+":req="+req.hashCode());
-			
-
 		}		
 		long elapsedTime = new java.util.Date().getTime() - startTime.getTime();	    
 		Log.info("------- ending "+req.getRequestURI()+":service elapsedTime:"+elapsedTime+" -----------------------------"+":req="+req.hashCode());		

@@ -38,13 +38,13 @@ public abstract class ValidateLoginRequestHandler extends SqlServiceHandler
 		Type statusMessageResponseType = new TypeToken<StatusMessageResponse>() {}.getType();
 		
 		String jsonString = getStringParmaterFromPostRequest(req);
-		Log.info("ValidateLoginRequestHandler:jsonString="+jsonString);
+		//Log.info("ValidateLoginRequestHandler:jsonString="+jsonString);
 		if(jsonString==null) throw new ServletException("Missing json body");
 		if(jsonString.isEmpty()) throw new ServletException("Missing json body");
 
 		LoginCredentials loginCredentials = gson.fromJson(jsonString,loginCredentialsType);
 		//LoginCredentials loginCredentials = gson.fromJson(jsonString, LoginCredentials.class);
-		Log.info("ValidateLoginRequestHandler:loginCredentials="+loginCredentials.toString());
+		//Log.info("ValidateLoginRequestHandler:loginCredentials="+loginCredentials.toString());
 		
 		Log.debug("calling extended validateLoginCredentialValid");
 		StatusMessageResponse statusMessageResponse = validateLoginCredentialValid(loginCredentials,req,res);
