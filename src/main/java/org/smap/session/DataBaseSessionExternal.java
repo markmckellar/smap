@@ -92,7 +92,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 	
 	public void initSession(Connection connection) throws Exception {	
 		String sessionKeyFromCookie = getSessionCookie(request,sessionCookieName);	
-		 Log.debug(this.getIdString()+":initSession"+"sessionCookieName:"+sessionKeyFromCookie);
+		 Log.debug(this.getIdString()+":initSession:"+"found cookie via:getSessionCookie:sessionCookieName:"+sessionKeyFromCookie);
 		 
 		 if(!doesSessionExistsInDB(connection,sessionKeyFromCookie)) {
 			 Log.debug(this.getIdString()+":session was not in DB:"+"sessionCookieName:"+sessionKeyFromCookie);
@@ -100,19 +100,20 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 			 SessionData sd = new SessionData();
 			 setSessionData(sd);
 			
-			 ///////////this.saveSessionToDB();
-
+			 if(sessionKeyFromCookie.isEmpty()) {
+				 Log.debug(this.getIdString()+":session key NOT was empty, earsing cookie");
+				 Cookie eraseSessionCookie = new Cookie(sessionCookieName, "");
+				 eraseSessionCookie.setMaxAge(0);
+				 //eraseSessionCookie.setPath( "/" );
+				 response.addCookie(eraseSessionCookie);
+			 }
+			 
+			 
 			 Cookie newSessionCookie = new Cookie(sessionCookieName,getSessionData().getSessionKey());
-			 		
-			 Log.debug(this.getIdString()+":initSession:making cookie:"+
-					":getDomain="+newSessionCookie.getDomain()+
-					":getName="+newSessionCookie.getName()+
-					":getPath="+newSessionCookie.getPath()+
-					":getSecure="+newSessionCookie.getSecure()+
-					":getMaxAge="+newSessionCookie.getMaxAge()
-						);
-		
-			 response.addCookie(newSessionCookie);			 
+			 newSessionCookie.setMaxAge(-1);
+			 newSessionCookie.setPath( "/" );
+			 response.addCookie(newSessionCookie);
+			 
 		 }
 		 else {
 			 Log.debug(getIdString()+":initSession:session was found in DB:"+"sessionCookieName:"+sessionKeyFromCookie);
@@ -128,12 +129,30 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 		if(request.getCookies()==null) return(sessionCookieValue);
 		
 		for(Cookie cookie:request.getCookies()) {
-			if(cookie.getName().contentEquals(sessionCookieName)) { 
+			Log.debug(this.getIdString()+":all cookies:cookie info:"+this.getCookieString(cookie));		
+		}
+		
+		for(Cookie cookie:request.getCookies()) {
+			Log.debug(this.getIdString()+":searching for:sessionCookieName="+sessionCookieName+":cookies:cookie with a name of:"+cookie.getName()+":value is:"+cookie.getValue());
+			if(cookie.getName().equals(sessionCookieName)) { 
 				sessionCookieValue = cookie.getValue();
 				break;
 			}
 		}
 		return(sessionCookieValue);
+	}
+	
+	private String getCookieString(Cookie cookie) {
+		return(
+				":getDomain="+cookie.getDomain()+
+				":getName="+cookie.getName()+
+				":getPath="+cookie.getPath()+
+				":getSecure="+cookie.getSecure()+
+				":getMaxAge="+cookie.getMaxAge()+
+				":getValue="+cookie.getValue()+
+				":getVersion="+cookie.getVersion()+
+				""
+				);
 	}
 	
 	public abstract SessionData readSessionDataFromDb(Connection connection,String sessionKey) throws Exception;
