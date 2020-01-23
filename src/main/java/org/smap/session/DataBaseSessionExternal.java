@@ -111,7 +111,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 			 
 			 Cookie newSessionCookie = new Cookie(sessionCookieName,getSessionData().getSessionKey());
 			 newSessionCookie.setMaxAge(-1);
-			 newSessionCookie.setPath( "/" );
+			 //newSessionCookie.setPath( "/" );
 			 response.addCookie(newSessionCookie);
 			 
 		 }
