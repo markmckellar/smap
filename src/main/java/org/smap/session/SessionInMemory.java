@@ -1,12 +1,10 @@
 package org.smap.session;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.smap.serviceresource.EmptyServiceHandlerResource;
-import org.smap.serviceresource.ServiceHandlerResource;
 import org.smap.util.Log;
 
 

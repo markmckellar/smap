@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.smap.interceptor.Interceptor;
 import org.smap.serviceroute.ServiceRoute;
-import org.smap.session.SessionFactoryInterface;
 
 public class HelloRequestHandler extends RequestTypeHandler
 {

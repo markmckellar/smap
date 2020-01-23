@@ -13,7 +13,6 @@ import org.smap.serviceresource.ServiceHandlerResource;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
 import org.smap.serviceresource.SqlServcieHandlerResorce;
 import org.smap.serviceroute.ServiceRoute;
-import org.smap.session.SessionFactoryInterface;
 
 public abstract class SqlServiceHandler extends RequestTypeHandler 
 {

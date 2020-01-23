@@ -11,7 +11,6 @@ import org.smap.service.SqlServiceHandler;
 import org.smap.service.StatusMessageResponse;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
 import org.smap.serviceroute.ServiceRoute;
-import org.smap.session.SessionFactoryInterface;
 import org.smap.util.Log;
 
 import com.google.gson.Gson;

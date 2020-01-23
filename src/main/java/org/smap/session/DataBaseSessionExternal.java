@@ -1,12 +1,9 @@
 package org.smap.session;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,15 +12,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.smap.db.dao.QueryTimer;
 import org.smap.service.RequestTypeHandler;
-import org.smap.service.SqlHelloWorld;
-import org.smap.service.RequestTypeHandler.ServiceTypeEnum;
-import org.smap.serviceresource.ServiceHandlerResource;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
-import org.smap.serviceresource.SqlServcieHandlerResorce;
-import org.smap.session.SessionData;
-import org.smap.session.SessionInterface;
 import org.smap.util.Log;
 
 

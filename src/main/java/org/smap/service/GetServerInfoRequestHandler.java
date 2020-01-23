@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.smap.interceptor.Interceptor;
 import org.smap.serviceroute.ServiceRoute;
-import org.smap.session.SessionFactoryInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -6,8 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.smap.service.RequestTypeHandler;
-
 import org.smap.util.Log;
 
 public abstract class SqlServcieHandlerResorce implements ServiceHandlerResource {

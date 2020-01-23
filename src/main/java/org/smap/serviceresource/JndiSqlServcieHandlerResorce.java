@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 
 import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 

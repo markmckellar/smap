@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.smap.interceptor.Interceptor;
 import org.smap.serviceresource.ServiceHandlerResource;
 import org.smap.serviceroute.ServiceRoute;
-import org.smap.session.SessionFactoryInterface;
 import org.smap.session.SessionInterface;
 import org.smap.util.Log;
 

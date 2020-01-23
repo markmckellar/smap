@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.smap.db.dao.QueryTimer;
 import org.smap.serviceresource.SqlServcieHandlerFactory;
 import org.smap.serviceroute.ServiceRoute;
-import org.smap.session.SessionFactoryInterface;
 import org.smap.util.Log;
 
 

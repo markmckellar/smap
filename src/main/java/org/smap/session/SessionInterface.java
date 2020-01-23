@@ -4,8 +4,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.smap.serviceresource.ServiceHandlerResource;
-
 
 public interface SessionInterface {
 	public String getSessionKey();
