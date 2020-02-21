@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.smap.service.RequestTypeHandler;
 import org.smap.service.validatelogin.ValidateLoginRequestHandler;
+import org.smap.util.Log;
 
 public class InterceptorValidSession extends RequestTypeHandler implements Interceptor
 {
@@ -28,10 +29,14 @@ public class InterceptorValidSession extends RequestTypeHandler implements Inter
 
 	public boolean isInterceptable(HttpServletRequest req, HttpServletResponse res) throws ServletException {
 		boolean isInterceptable = true;
+		boolean doesAttributeExist = false;
 		if(this.getRequestTypeHandler().getSession().doesAttributeExist(ValidateLoginRequestHandler.SESSION_VALIDATED))
 	    {
+			doesAttributeExist = true;
 			isInterceptable = ! (getSession().getAttribute(ValidateLoginRequestHandler.SESSION_VALIDATED,boolean.class) );
 	    }
+		Log.debug("InterceptorValidSession:does SESSION_VALIDATED exist?="+doesAttributeExist+":isInterceptable="+isInterceptable);
+
 		return(isInterceptable);
 	}
 	

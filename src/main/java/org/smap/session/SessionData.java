@@ -1,6 +1,7 @@
 package org.smap.session;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class SessionData {
 	
 	public SessionData() {
 		sessionDataMap = new HashMap<String,Object>();	
-		this.sessionKey = UUID.randomUUID().toString();
+		this.sessionKey = UUID.randomUUID().toString()+":::"+new Date().getTime();
 	}
 	
 	public static SessionData NewSessionDataFromJson(String sessionDataJsonString) {
@@ -29,6 +30,15 @@ public class SessionData {
 		Type jsonType = new TypeToken<SessionData>() {}.getType();
 		SessionData sessionData = gson.fromJson(sessionDataJsonString,jsonType);
 		return(sessionData);
+	}
+	
+	public static long getTimePart(String sessionKeyValue) {
+		long longtimePart = -1;	
+		String[] parts = sessionKeyValue.split(":::");
+		if(parts.length>1) {
+			longtimePart = Long.parseLong(parts[1]);
+		}
+		return(longtimePart);
 	}
 	
 	public boolean doesSessionHaveData() {

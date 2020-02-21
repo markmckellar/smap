@@ -19,6 +19,7 @@ public interface Interceptor
 	{
 		RequestTypeHandler requestTypeHandler = getRequestTypeHandler().getNewInstance(session,req, res);
 		requestTypeHandler.processRequest(req, res);
-		return(wasIntercepted());
+		Interceptor interceptor = (Interceptor) requestTypeHandler;
+		return(interceptor.wasIntercepted());
 	}
 }

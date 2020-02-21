@@ -75,7 +75,7 @@ public abstract class RequestTypeHandler implements Cloneable
 			HttpServletResponse res) throws ServletException,java.io.IOException
 	{
 		boolean wasIntercepted = false;
-		Log.debug("Checking interceptor List for:"+req.getRequestURI()+":getInterceptorList.size="+requestTypeHandler.getInterceptorList().size());				
+		Log.debug("Checking interceptor List for:"+req.getRequestURI()+":getInterceptorList.size="+requestTypeHandler.getInterceptorList().size()+":requestTypehandler="+requestTypeHandler.getClass());				
 
 		for(Interceptor interceptor:requestTypeHandler.getInterceptorList()) 
 		{
@@ -84,12 +84,13 @@ public abstract class RequestTypeHandler implements Cloneable
 			Log.debug("Checking interceptor List for:"+req.getRequestURI()+
 					":interceptor="+interceptor.getClass()+
 					":wasIntercepted="+wasIntercepted+
-					""
+					":requestTypehandler="+requestTypeHandler.getClass()
 					);				
 
 			if(wasIntercepted) break;
 		}
-		
+		Log.debug("After interceptor check:"+req.getRequestURI()+"wasIntercepted="+wasIntercepted+":getInterceptorList.size="+requestTypeHandler.getInterceptorList().size()+":requestTypehandler="+requestTypeHandler.getClass());				
+
 		if(!wasIntercepted) processRequestInner(requestTypeHandler,req,res);
 	}
 	
@@ -100,13 +101,13 @@ public abstract class RequestTypeHandler implements Cloneable
 	{
 		try
 		{				
-			Log.debug("Starting processing for :"+req.getRequestURI()+":req="+req.hashCode());				
+			Log.debug("Starting processing for :"+req.getRequestURI()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());				
 			requestTypeHandler.initResources(req, res);
-			Log.debug("After initResources for :"+req.getRequestURI()+":req="+req.hashCode());
+			Log.debug("After initResources for :"+req.getRequestURI()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 			
 			requestTypeHandler.handleRequestType(req, res);
 			
-			Log.debug("After handleRequestType for :"+req.getRequestURI());												
+			Log.debug("After handleRequestType for :"+req.getRequestURI()+":requestTypeHandler="+requestTypeHandler.getClass());												
 		}
 		catch(Exception e)
 		{
@@ -116,13 +117,13 @@ public abstract class RequestTypeHandler implements Cloneable
 			
 			try
 			{
-				Log.debug("Starting closeResourcesOnError for :"+req.getRequestURI()+":req="+req.hashCode());
+				Log.debug("Starting closeResourcesOnError for :"+req.getRequestURI()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 				requestTypeHandler.closeResourcesOnError(req, res);
-				Log.debug("Ended closeResourcesOnError for :"+req.getRequestURI()+":req="+req.hashCode());
+				Log.debug("Ended closeResourcesOnError for :"+req.getRequestURI()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 			}
 			catch(Exception ex)
 			{
-				Log.debug("***** Error on closeResourcesOnError"+":req="+req.hashCode());
+				Log.debug("***** Error on closeResourcesOnError"+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 				ex.printStackTrace();
 				throw new ServletException(ex);
 			}
@@ -133,22 +134,22 @@ public abstract class RequestTypeHandler implements Cloneable
 		}
 		finally
 		{
-			Log.debug("Starting finally for :"+req.getRequestURI());				
+			Log.debug("Starting finally for :"+req.getRequestURI()+":requestTypeHandler="+requestTypeHandler.getClass());				
 
 		       try
 	            {
-		    	   Log.debug("Starting closeResources for :"+req.getRequestURI()+":req="+req.hashCode());
+		    	   Log.debug("Starting closeResources for :"+req.getRequestURI()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 		    	   requestTypeHandler.closeResources(req, res);
-		    	   Log.debug("Ended closeResources for :"+req.getRequestURI()+":req="+req.hashCode());
+		    	   Log.debug("Ended closeResources for :"+req.getRequestURI()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 		    	   
 	            }
 	            catch ( Exception ex )
 	            {
-	                Log.debug("***** Error on closeResources : "+ex.getMessage()+":req="+req.hashCode());
+	                Log.debug("***** Error on closeResources : "+ex.getMessage()+":req="+req.hashCode()+":requestTypeHandler="+requestTypeHandler.getClass());
 	                ex.printStackTrace();
-	                throw new ServletException("Error on closeResources : "+ex.getMessage());
+	                throw new ServletException("Error on closeResources : "+ex.getMessage()+":requestTypeHandler="+requestTypeHandler.getClass());
 	            }
-				Log.debug("Ended finally for :"+req.getRequestURI());				
+				Log.debug("Ended finally for :"+req.getRequestURI()+":requestTypeHandler="+requestTypeHandler.getClass());				
 
 		}			
 	}		
@@ -246,14 +247,14 @@ public abstract class RequestTypeHandler implements Cloneable
 		
 		for(ServiceHandlerResource serviceHandlerResource:getServiceHandlerResourceList())
 		{
-			serviceHandlerResource.initResource(req,res);			
+			serviceHandlerResource.initResource(req,res,this);			
 		}
 			
 	}
 
 	public void closeResources(HttpServletRequest req, HttpServletResponse res) throws Exception{
 		for(ServiceHandlerResource serviceHandlerResource:this.getServiceHandlerResourceList())
-			serviceHandlerResource.closeResource(req,res);		
+			serviceHandlerResource.closeResource(req,res,this);		
 	}
 
 	public ServiceRoute getServiceRoute() {
@@ -266,7 +267,7 @@ public abstract class RequestTypeHandler implements Cloneable
 
 	public void closeResourcesOnError(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		for(ServiceHandlerResource serviceHandlerResource:this.getServiceHandlerResourceList())
-			serviceHandlerResource.closeResourceOnError(req,res);			
+			serviceHandlerResource.closeResourceOnError(req,res,this);			
 	}
 
 	public List<Interceptor> getInterceptorList() {

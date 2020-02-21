@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,14 +95,16 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 				 Log.debug(this.getIdString()+":session key NOT was empty, earsing cookie");
 				 Cookie eraseSessionCookie = new Cookie(sessionCookieName, "");
 				 eraseSessionCookie.setMaxAge(0);
-				 //eraseSessionCookie.setPath( "/" );
+				 ////////// WAS default path
+				 eraseSessionCookie.setPath( "/" );
 				 response.addCookie(eraseSessionCookie);
 			 }
 			 
 			 
 			 Cookie newSessionCookie = new Cookie(sessionCookieName,getSessionData().getSessionKey());
 			 newSessionCookie.setMaxAge(-1);
-			 //newSessionCookie.setPath( "/" );
+			 ////////// WAS default path
+			 newSessionCookie.setPath( "/" );
 			 response.addCookie(newSessionCookie);
 			 
 		 }
@@ -110,6 +113,18 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 
 			 setSessionData(readSessionDataFromDb(connection,sessionKeyFromCookie));
 		 }
+		 removeAllCookiesExceptPassed(request,sessionCookieName,this.getSessionData().getSessionKey());
+	}
+	
+	public void removeAllCookiesExceptPassed(HttpServletRequest request,String sessionCookieName,String sessionKey) {
+		for(Cookie cookie:request.getCookies()) {
+			Log.debug(this.getIdString()+":removeAllCookiesExceptPassed:checking:cookie info:"+this.getCookieString(cookie));
+			if(cookie.getName().equals(sessionCookieName) && !cookie.getValue().contentEquals(sessionKey)) {
+				cookie.setMaxAge(0);
+				Log.debug(this.getIdString()+":removeAllCookiesExceptPassed:erasing:cookie info:"+this.getCookieString(cookie));
+			}
+			cookie.setMaxAge(0);
+		}
 	}
 	
    
@@ -117,6 +132,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 	public String getSessionCookie(HttpServletRequest request,String sessionCookieName) {
 		String sessionCookieValue = "";
 		if(request.getCookies()==null) return(sessionCookieValue);
+		long maxAge = 0;
 		
 		for(Cookie cookie:request.getCookies()) {
 			Log.debug(this.getIdString()+":all cookies:cookie info:"+this.getCookieString(cookie));		
@@ -124,9 +140,15 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 		
 		for(Cookie cookie:request.getCookies()) {
 			Log.debug(this.getIdString()+":searching for:sessionCookieName="+sessionCookieName+":cookies:cookie with a name of:"+cookie.getName()+":value is:"+cookie.getValue());
-			if(cookie.getName().equals(sessionCookieName)) { 
-				sessionCookieValue = cookie.getValue();
-				break;
+			if(cookie.getName().equals(sessionCookieName)) {
+				
+				if(sessionCookieValue.isEmpty()) sessionCookieValue = cookie.getValue();
+				
+				long loopAge = SessionData.getTimePart(cookie.getValue());
+				if(loopAge>maxAge) {
+					maxAge = loopAge;
+					sessionCookieValue = cookie.getValue();
+				}
 			}
 		}
 		return(sessionCookieValue);
