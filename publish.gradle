@@ -8,7 +8,7 @@ ext {
     libraryDescription = 'a simple light weight server to simplify service mappings'
     siteUrl = 'https://github.com/markmckellar/smap'
     gitUrl = 'https://github.com/markmckellar/smapgit'
-    libraryVersion = '20191012.01'
+    libraryVersion = '20200221.01'
     developerId = 'mdm'
     developerName = 'Mark McKellar'
     developerEmail = 'mckellar.mm@gmail.com'
