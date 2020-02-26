@@ -140,6 +140,7 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 			Log.debug(this.getIdString()+":all cookies:cookie info:"+this.getCookieString(cookie));		
 		}
 		
+
 		for(Cookie cookie:request.getCookies()) {
 			Log.debug(this.getIdString()+":searching for:sessionCookieName="+sessionCookieName+":cookies:cookie with a name of:"+cookie.getName()+":value is:"+cookie.getValue());
 			if(cookie.getName().equals(sessionCookieName)) {
