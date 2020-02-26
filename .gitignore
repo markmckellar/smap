@@ -1,7 +1,11 @@
 /.gradle
+/local.properties
 /.settings
 /bin
 /build
 /.classpath
 /.project
+<<<<<<< HEAD
 /local.properties
+=======
+>>>>>>> 29facfcd5a64308e0baa1fe4a432afdda2383d40
