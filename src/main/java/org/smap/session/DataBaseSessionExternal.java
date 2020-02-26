@@ -117,6 +117,8 @@ public abstract class DataBaseSessionExternal implements SessionInterface {
 	}
 	
 	public void removeAllCookiesExceptPassed(HttpServletRequest request,String sessionCookieName,String sessionKey) {
+		if(request.getCookies()==null) return;
+		
 		for(Cookie cookie:request.getCookies()) {
 			Log.debug(this.getIdString()+":removeAllCookiesExceptPassed:checking:cookie info:"+this.getCookieString(cookie));
 			if(cookie.getName().equals(sessionCookieName) && !cookie.getValue().contentEquals(sessionKey)) {
