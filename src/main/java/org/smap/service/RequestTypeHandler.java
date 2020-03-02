@@ -152,7 +152,19 @@ public abstract class RequestTypeHandler implements Cloneable
 				Log.debug("Ended finally for :"+req.getRequestURI()+":requestTypeHandler="+requestTypeHandler.getClass());				
 
 		}			
-	}		
+	}	
+	
+	public void writeStringResponseBytes(HttpServletResponse res,byte[] data,String fileName,String responseType) throws IOException
+	{
+	    Log.debug(this.getClass().getName()+":writeStringResponsePdf:pdfData.length="+data.length);
+		res.setContentType(responseType);
+		res.setHeader("Content-disposition","inline; filename='"+fileName+"'");
+		//res.setHeader("Cache-Control", "nocache");
+		//res.setCharacterEncoding("utf-8");
+		
+		ServletOutputStream os = res.getOutputStream();
+		os.write(data);
+	}
 
 	public void writeStringResponsePdf(HttpServletResponse res,byte[] pdfData,String fileName) throws IOException
 	{
